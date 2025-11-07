@@ -1,64 +1,80 @@
-const Partner = () => {
+import { getImageUrlFromSanityObject } from '../../utils/sanity';
+
+const Partner = ({ whyPartnerData }) => {
+    // Get image URL from Sanity
+    const imageUrl = whyPartnerData?.image 
+        ? getImageUrlFromSanityObject(whyPartnerData.image)
+        : '/img/partner1.webp'; // Fallback image
+    
+    // Get data from Sanity or use fallbacks
+    const eyebrow = whyPartnerData?.eyebrow || 'PARTNER WITH SOCA SHORES';
+    const title = whyPartnerData?.title || 'Why Partner With Us?';
+    const intro = whyPartnerData?.intro || '';
+    const bullets = whyPartnerData?.bullets || [];
+    const imageAlt = whyPartnerData?.image?.alt || 'Soca Shores Partnership Solutions';
+
+    // Split intro text - it contains the main text and closing text separated by \n\n
+    const introParts = intro.split('\n\n');
+    const mainIntro = introParts[0] || '';
+    const closingText = introParts[1] || '';
+
     return (
         <section className="w-full bg-white h-[867px]">
             <div className="grid md:grid-cols-2 w-full h-full">
 
                 {/* LEFT SIDE - TEXT CONTENT */}
                 <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 h-full">
-                    <p className="partner-heading">
-                        Partner with Soca Shores
-                    </p>
+                    {eyebrow && (
+                        <p className="partner-heading">
+                            {eyebrow}
+                        </p>
+                    )}
 
-                    <h2 className="mt-2 text-3xl md:text-4xl font-bold text-neutral-900">
-                        Why Partner With Us?
-                    </h2>
-                    <p className="mt-5 text-base text-neutral-700 leading-relaxed">
-                        Choosing Soca Shores means aligning your brand with a premium, eco-conscious water
-                        solution that delivers more than just hydration. Our partnerships are built on:
-                    </p>
+                    {title && (
+                        <h2 className="mt-2 text-3xl md:text-4xl font-bold text-neutral-900">
+                            {title}
+                        </h2>
+                    )}
 
-                    <ul className="mt-6 space-y-4 text-base text-neutral-800">
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 size-2 rounded-full bg-[#62B5E1]"></span>
-                            <span>
-                                <strong>Sustainable Impact:</strong> Plant-based, fully recyclable cartons reduce
-                                plastic waste and support a greener planet.
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 size-2 rounded-full bg-[#62B5E1]"></span>
-                            <span>
-                                <strong>Health-First Quality:</strong> Pure Caribbean-sourced water with a pristine pH
-                                of +7.5, rich in essential minerals and free of microplastics.
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 size-2 rounded-full bg-[#62B5E1]"></span>
-                            <span>
-                                <strong>Versatility:</strong> Perfect for retail, hospitality, events, and wellness-focused
-                                brands.
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 size-2 rounded-full bg-[#62B5E1]"></span>
-                            <span>
-                                <strong>Scalable Supply:</strong> Our high-capacity production ensures reliable
-                                fulfillment for partners of all sizes.
-                            </span>
-                        </li>
-                    </ul>
+                    {mainIntro && (
+                        <p className="mt-5 text-base text-neutral-700 leading-relaxed">
+                            {mainIntro}
+                        </p>
+                    )}
 
-                    <p className="mt-6 text-neutral-700 leading-relaxed">
-                        Let your brand reflect your values — choose water that speaks to health,
-                        sustainability, and premium quality.
-                    </p>
+                    {bullets && bullets.length > 0 && (
+                        <ul className="mt-6 space-y-4 text-base text-neutral-800">
+                            {bullets.map((bullet, index) => {
+                                // Extract the bold part and regular text
+                                const parts = bullet.split(':');
+                                const boldText = parts[0] || '';
+                                const regularText = parts.slice(1).join(':').trim();
+                                
+                                return (
+                                    <li key={index} className="flex items-start gap-3">
+                                        <span className="mt-2 size-2 rounded-full bg-[#62B5E1]"></span>
+                                        <span>
+                                            {boldText && <strong>{boldText}:</strong>}
+                                            {regularText && ` ${regularText}`}
+                                        </span>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    )}
+
+                    {closingText && (
+                        <p className="mt-6 text-neutral-700 leading-relaxed">
+                            {closingText}
+                        </p>
+                    )}
                 </div>
 
                 {/* RIGHT SIDE - IMAGE */}
                 <div className="w-full h-full">
                     <img
-                        src="/img/partner1.webp"
-                        alt="Soca Shores production line"
+                        src={imageUrl}
+                        alt={imageAlt}
                         className="w-full h-full object-cover"
                         loading="lazy"
                     />

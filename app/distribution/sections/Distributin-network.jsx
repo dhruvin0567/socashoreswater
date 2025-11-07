@@ -1,4 +1,23 @@
-const Partner = () => {
+import { getImageUrlFromSanityObject } from '../../utils/sanity';
+
+const Distribution = ({ globalDistributionData }) => {
+    // Get image URL from Sanity
+    const imageUrl = globalDistributionData?.image 
+        ? getImageUrlFromSanityObject(globalDistributionData.image)
+        : '/img/distribution_img.webp'; // Fallback image
+    
+    // Get data from Sanity or use fallbacks
+    const kicker = globalDistributionData?.kicker || '10,000,000+ Cartons Per Week Capacity';
+    const title = globalDistributionData?.title || 'GLOBAL DISTRIBUTION';
+    const intro = globalDistributionData?.intro || '';
+    const regions = globalDistributionData?.regions || [];
+    const imageAlt = globalDistributionData?.image?.alt || 'Soca Shores Global Distribution';
+
+    // Split intro text - it contains the main text and closing text separated by \n\n or \n\n\n
+    const introParts = intro.split(/\n\n+/).filter(part => part.trim());
+    const mainIntro = introParts[0] || '';
+    const closingText = introParts[1] || '';
+
     return (
         <section className="w-full bg-white h-[867px]">
             <div className="grid md:grid-cols-2 w-full h-full">
@@ -6,8 +25,8 @@ const Partner = () => {
                 {/* LEFT SIDE - IMAGE */}
                 <div className="w-full h-full">
                     <img
-                        src="/img/distribution_img.webp"
-                        alt="Soca Shores production line"
+                        src={imageUrl}
+                        alt={imageAlt}
                         className="w-full h-full object-cover"
                         loading="lazy"
                     />
@@ -15,56 +34,42 @@ const Partner = () => {
 
                 {/*  RIGHT SIDE - TEXT CONTENT */}
                 <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 h-full bg-[#1d2846]">
-                    <p className="partner-heading text-[#bde9fb] font-regular">
-                        10,000,000+ Cartons Per Week Capacity
-                    </p>
+                    {kicker && (
+                        <p className="partner-heading text-[#bde9fb] font-regular">
+                            {kicker}
+                        </p>
+                    )}
 
-                    <h2 className="mt-2 text-3xl md:text-4xl font-bold text-white">
-                        Why Partner With Us?
-                    </h2>
-                    <p className="mt-5 text-base text-neutral-700 leading-relaxed text-[#ffffffbf]">
-                        Choosing Soca Shores means aligning your brand with a premium, eco-conscious water
-                        solution that delivers more than just hydration. Our partnerships are built on:
-                    </p>
+                    {title && (
+                        <h2 className="mt-2 text-3xl md:text-4xl font-bold text-white">
+                            {title}
+                        </h2>
+                    )}
 
-                    <ul className="mt-6 space-y-4 text-base text-[#ffffffbf]">
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 size-2 rounded-full bg-[#ffffffbf]"></span>
-                            <span>
-                                <strong>The Caribbean</strong>
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 size-2 rounded-full bg-[#ffffffbf]"></span>
-                            <span>
-                                <strong>The Caribbean</strong>
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 size-2 rounded-full bg-[#ffffffbf]"></span>
-                            <span>
-                                <strong>The Caribbean</strong>
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 size-2 rounded-full bg-[#ffffffbf]"></span>
-                            <span>
-                                <strong>The Caribbean</strong>
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <span className="mt-2 size-2 rounded-full bg-[#ffffffbf]"></span>
-                            <span>
-                                <strong>The Caribbean</strong>
-                            </span>
-                        </li>
+                    {mainIntro && (
+                        <p className="mt-5 text-base text-neutral-700 leading-relaxed text-[#ffffffbf]">
+                            {mainIntro}
+                        </p>
+                    )}
 
-                    </ul>
+                    {regions && regions.length > 0 && (
+                        <ul className="mt-6 space-y-4 text-base text-[#ffffffbf]">
+                            {regions.map((region, index) => (
+                                <li key={index} className="flex items-start gap-3">
+                                    <span className="mt-2 size-2 rounded-full bg-[#ffffffbf]"></span>
+                                    <span>
+                                        <strong>{region}</strong>
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
 
-                    <p className="mt-6 text-neutral-700 leading-relaxed">
-                        Let your brand reflect your values — choose water that speaks to health,
-                        sustainability, and premium quality.
-                    </p>
+                    {closingText && (
+                        <p className="mt-6 text-neutral-700 leading-relaxed text-[#ffffffbf]">
+                            {closingText}
+                        </p>
+                    )}
                 </div>
 
 
@@ -73,4 +78,4 @@ const Partner = () => {
     );
 };
 
-export default Partner;
+export default Distribution;
