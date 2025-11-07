@@ -1,10 +1,9 @@
 import { getImageUrlFromSanityObject } from '../../utils/sanity';
 
 const Partner = ({ whyPartnerData }) => {
-    // Get image URL from Sanity
     const imageUrl = whyPartnerData?.image 
         ? getImageUrlFromSanityObject(whyPartnerData.image)
-        : '/img/partner1.webp'; // Fallback image
+        : '/img/partner1.webp'; 
     
     // Get data from Sanity or use fallbacks
     const eyebrow = whyPartnerData?.eyebrow || 'PARTNER WITH SOCA SHORES';

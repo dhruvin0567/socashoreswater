@@ -12,11 +12,11 @@ const Hero = ({ heroData }) => {
             console.log('Background Image URL:', backgroundImageUrl);
         }
     }
-    
+
     // if (!backgroundImageUrl) {
     //     backgroundImageUrl = '/img/hero.webp';
     // }
-    
+
     const title = heroData?.title;
 
     return (

@@ -1,19 +1,16 @@
 import { getImageUrlFromSanityObject } from '../../utils/sanity';
 
 const Distribution = ({ globalDistributionData }) => {
-    // Get image URL from Sanity
-    const imageUrl = globalDistributionData?.image 
+    const imageUrl = globalDistributionData?.image
         ? getImageUrlFromSanityObject(globalDistributionData.image)
-        : '/img/distribution_img.webp'; // Fallback image
-    
-    // Get data from Sanity or use fallbacks
+        : '/img/distribution_img.webp';
+
     const kicker = globalDistributionData?.kicker || '10,000,000+ Cartons Per Week Capacity';
     const title = globalDistributionData?.title || 'GLOBAL DISTRIBUTION';
     const intro = globalDistributionData?.intro || '';
     const regions = globalDistributionData?.regions || [];
     const imageAlt = globalDistributionData?.image?.alt || 'Soca Shores Global Distribution';
 
-    // Split intro text - it contains the main text and closing text separated by \n\n or \n\n\n
     const introParts = intro.split(/\n\n+/).filter(part => part.trim());
     const mainIntro = introParts[0] || '';
     const closingText = introParts[1] || '';
@@ -22,7 +19,6 @@ const Distribution = ({ globalDistributionData }) => {
         <section className="w-full bg-white h-[867px]">
             <div className="grid md:grid-cols-2 w-full h-full">
 
-                {/* LEFT SIDE - IMAGE */}
                 <div className="w-full h-full">
                     <img
                         src={imageUrl}
@@ -32,7 +28,6 @@ const Distribution = ({ globalDistributionData }) => {
                     />
                 </div>
 
-                {/*  RIGHT SIDE - TEXT CONTENT */}
                 <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 h-full bg-[#1d2846]">
                     {kicker && (
                         <p className="partner-heading text-[#bde9fb] font-regular">

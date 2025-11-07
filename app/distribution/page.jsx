@@ -5,10 +5,7 @@ import Distribution from './sections/Distributin-network'
 import CTA from './sections/CTA'
 import { fetchSanityData } from '../utils/sanity'
 
-// This is a Server Component (App Router equivalent of getServerSideProps)
 const page = async () => {
-    // Fetch distribution page data from Sanity
-    // Using the same query structure as your API endpoint
     const query = `*[_type == "distributionPage"][0]{
         hero{
             title,
@@ -87,30 +84,27 @@ const page = async () => {
     let privateLabelData = null;
     let fastLeadTimesData = null;
     let ctaData = null;
-    
+
     try {
         const data = await fetchSanityData(query, 'drafts');
-        
-        // Debug: Log the full response
+
         console.log('=== SANITY API RESPONSE ===');
         console.log('Full API Response:', JSON.stringify(data, null, 2));
-        
-        // Extract all section data
+
         heroData = data?.hero || null;
         whyPartnerData = data?.whyPartner || null;
         globalDistributionData = data?.globalDistribution || null;
         privateLabelData = data?.privateLabel || null;
         fastLeadTimesData = data?.fastLeadTimes || null;
         ctaData = data?.cta || null;
-        
-        // Debug: Log all extracted data
+
         console.log('Hero Data:', JSON.stringify(heroData, null, 2));
         console.log('Why Partner Data:', JSON.stringify(whyPartnerData, null, 2));
         console.log('Global Distribution Data:', JSON.stringify(globalDistributionData, null, 2));
         console.log('Fast Lead Times Data:', JSON.stringify(fastLeadTimesData, null, 2));
         console.log('CTA Data:', JSON.stringify(ctaData, null, 2));
         console.log('=== END SANITY RESPONSE ===');
-        
+
     } catch (error) {
         console.error('Error fetching data:', error);
         console.error('Error details:', error.message);
@@ -120,7 +114,7 @@ const page = async () => {
     return (
         <div>
             <Hero heroData={heroData} />
-            <Partner whyPartnerData={whyPartnerData} /> 
+            <Partner whyPartnerData={whyPartnerData} />
             <Distribution globalDistributionData={globalDistributionData} privateLabelData={privateLabelData} />
             <CTA ctaData={ctaData} fastLeadTimesData={fastLeadTimesData} />
         </div>

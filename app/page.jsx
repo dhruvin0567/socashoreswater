@@ -6,8 +6,6 @@ import CTA from "./distribution/sections/CTA";
 import { fetchSanityData } from "./utils/sanity";
 
 const page = async () => {
-  // Fetch distribution page data from Sanity
-  // Using the same query structure as your API endpoint
   const query = `*[_type == "distributionPage"][0]{
     hero{
       title,
@@ -117,9 +115,6 @@ const page = async () => {
       <Partner whyPartnerData={whyPartnerData}/>
       <Distribution globalDistributionData={globalDistributionData}/>
       <CTA ctaData={ctaData} fastLeadTimesData={fastLeadTimesData}/>
-      {/* <Distribution globalDistributionData={globalDistributionData} privateLabelData={privateLabelData}/>
-      <CTA ctaData={ctaData} fastLeadTimesData={fastLeadTimesData}/>
-      <Contact contactData={contactData}/> */}
     </div>
   );
 };
